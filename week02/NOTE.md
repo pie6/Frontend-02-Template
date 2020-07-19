@@ -276,3 +276,17 @@ Prototype Chain
 - `Object.create` / `Object.setPrototypeOf` / `Object.getPrototypeOF` (基於prototype)
 - new / class / extends (基於分類)
 - new / function / prototype
+
+
+**Function**
+
+[[call]]
+
+**Special Object**
+
+- Array [[length]]
+- Object.prototype [[setPrototypeOf]]
+
+**Host Object**
+
+- Object [[call]] [[construct]]
