@@ -1,0 +1,72 @@
+<style>
+    #container {
+        width: 500px;
+    }
+    #dragable {
+        width: 100px;
+        height: 100px;
+        background-color: #f00;
+        display: inline-block;
+    }
+</style>
+
+<div id="container">
+    文可一的能給何命！放好響，實油大了復女能開的顧學原上。論美城團字族白，親在組深心是己代海走應，了牛紅。如本行走再給未小禮眼一她成生到不國你。怕國又：來委樂從有且還裡……雜廣育最他。造古類年於？市行送開你苦看不書許讀在、腳農過子在人著進有反在更過且？情原大基者爸面阿、你人了黃和麼，方山華由……行本毛子指有過，不又在……樣麼外加會上變頭陸跑了力轉出我真定舉，那廠長前來實媽長大認象力以經一外所。不麼公之上雄試清地清教技之生？
+</div>
+
+<div id ="dragable"></div>
+
+<script>
+    let dragable = document.getElementById('dragable')
+    let baseX = 0, baseY = 0;
+
+    dragable.addEventListener('mousedown', function(event){
+        let startX = event.clientX, startY = event.clientY;
+
+        let up = (e) => {
+            baseX = baseX + e.clientX - startX;
+            baseY = baseY + e.clientY - startY;
+            // 使用 document 不然超出 dragable 就無法監聽
+            document.removeEventListener('mousemove', move)
+            document.removeEventListener('mouseup', up)
+        }
+        let move = e => {
+            let range = getNearest(e.clientX, e.clientY)
+            // if element already exist, default remove
+            range.insertNode(dragable)
+        }
+
+        document.addEventListener('mousemove', move)
+        document.addEventListener('mouseup', up)
+    })
+
+    let ranges = []
+
+    let container = document.getElementById('container')
+    for (let index = 0; index < container.childNodes[0].textContent.length; index++) {
+        let range = document.createRange();
+        range.setStart(container.childNodes[0], index)
+        range.setEnd(container.childNodes[0], index)
+
+        console.log(range.getBoundingClientRect())
+        ranges.push(range)
+    }
+
+    function getNearest(x, y){
+        let min = Infinity;
+        let nearest = null;
+
+        for (let range of ranges) {
+            // CSSOM
+            let rect = range.getBoundingClientRect()
+            let distance = (rect.x - x) ** 2 +  (rect.y - y) ** 2;
+            if(distance < min) {
+                nearest = range
+                min = distance;
+            }
+        }
+        return nearest;
+    }
+
+    document.addEventListener('selectstart', e => e.preventDefault())
+</script>

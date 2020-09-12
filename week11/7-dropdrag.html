@@ -1,0 +1,33 @@
+<style>
+    #dragable {
+        width: 100px;
+        height: 100px;
+        background-color: #f00;
+    }
+</style>
+
+<div id ="dragable"></div>
+
+<script>
+    let dragable = document.getElementById('dragable')
+    let baseX = 0, baseY = 0;
+
+    dragable.addEventListener('mousedown', function(event){
+        let startX = event.clientX, startY = event.clientY;
+
+        let up = (e) => {
+            baseX = baseX + e.clientX - startX;
+            baseY = baseY + e.clientY - startY;
+            // 使用 document 不然超出 dragable 就無法監聽
+            document.removeEventListener('mousemove', move)
+            document.removeEventListener('mouseup', up)
+        }
+        let move = e => {
+            dragable.style.transform = `translate(${baseX + e.clientX - startX}px, ${baseY + e.clientY - startY}px)`
+        }
+
+        document.addEventListener('mousemove', move)
+        document.addEventListener('mouseup', up)
+    })
+    // 在 document 上監聽
+</script>
