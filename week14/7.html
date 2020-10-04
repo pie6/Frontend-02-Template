@@ -1,0 +1,38 @@
+<body oncontextmenu="event.preventDefault()">
+</body>
+<script type="module">
+    import { enableGesture} from "./7-gesture-encapsulation.js"
+    let el = document.documentElement
+    enableGesture(el)
+
+    el.addEventListener('tap', (e) => {
+        console.log('tap')
+    })
+
+    el.addEventListener('press', () => {
+        console.log('press')
+    })
+    el.addEventListener('pressend', () => {
+        console.log('pressend')
+    })
+
+
+    el.addEventListener('panstart', () => {
+        console.log('panstart')
+    })
+    el.addEventListener('pan', () => {
+        console.log('pan')
+    })
+    el.addEventListener('panend', () => {
+        console.log('panend')
+    })
+
+    el.addEventListener('flick', (e) => {
+        console.log('flick')
+        console.log('velocity',e.velocity)
+    })
+
+    el.addEventListener('cancel', () => {
+        console.log('cancel')
+    })
+</script>
