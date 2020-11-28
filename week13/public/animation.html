@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        #el {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
+            background-color: blue;
+        }
+
+        #el-2 {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+
+        .ease {
+            transform: translateX(500px);
+            transition: all 3s ease;
+        }
+    </style>
+</head>
+<body>
+<div id="el"></div>
+<div id="el-2"></div>
+<button id="pause">pause</button>
+<button id="resume">resume</button>
+</body>
+<script type="module" src="../dist/main.js"></script>
+
+<script>
+    document.querySelector('#el-2').classList.add("ease")
+</script>
+</html>
