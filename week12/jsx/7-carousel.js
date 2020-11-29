@@ -20,7 +20,7 @@ class Carousel extends Component {
 
         let position = 0;
         // 還需 children 的 getClientRect
-        let carouselWidth = 500
+        let imgW = 500
 
         // 三個 event 一組
         this.root.addEventListener('mousedown', e => {
@@ -30,36 +30,45 @@ class Carousel extends Component {
             let move = e => {
 
                 let x = e.clientX - startX
-                let current = position - ((x - x % carouselWidth)/ carouselWidth)
+                let current = position - Math.round((x - x % imgW)/ imgW)
 
-                for (const offset of [-2, -1, 0 , -1, 2]) {
+                for (let offset of [-1, 0, -1]) {
                     let pos = current + offset;
                     // 避免 negative num (-1 → 3)
                     pos = (pos + children.length) % children.length
 
-                    children[pos].style.transition = ''
+                    children[pos].style.transition = 'none'
                     children[pos].style.transform = `
-                        translateX(${- pos * carouselWidth + (offset * carouselWidth) + (carouselWidth + x % carouselWidth)}px)
+                        translateX(${
+                            - pos * imgW +
+                            offset * imgW +
+                            x % imgW
+                        }px)
                     `
                 }
+
             }
 
             let up = e => {
+                // mouseup 時將 mouseup/mousemove disable
+                document.removeEventListener('mousemove', move)
+                document.removeEventListener('mouseup', up)
+
                 let x = e.clientX - startX
                 // drag 超過一半，到下一張
-                position = position - Math.round(x / carouselWidth)
+                position = position - Math.round(x / imgW)
 
-                for (const offset of [0, - Math.sign(Math.round(x /carouselWidth) - x + (carouselWidth/ 2) * Math.sign(x))]) {
+                for (const offset of [0, - Math.sign(Math.round(x / imgW) - x + (imgW / 2) * Math.sign(x))]) {
                     let pos = position + offset;
                     // 避免 negative num (-1 → 3)
                     pos = (pos + children.length) % children.length
 
                     children[pos].style.transition = ''
-                    children[pos].style.transform = `translateX(${(- pos * carouselWidth) + (offset * carouselWidth)}px)`
+                    children[pos].style.transform = `translateX(${
+                        - pos * imgW +
+                        offset * imgW
+                        }px)`
                 }
-                // mouseup 時將 mouseup/mousemove disable
-                document.removeEventListener('mousemove', move)
-                document.removeEventListener('mouseup', up)
             }
 
             document.addEventListener('mouseup', up)
@@ -73,9 +82,9 @@ class Carousel extends Component {
 }
 
 const data = [
-    "https://picsum.photos/id/100/500/250",
-    "https://picsum.photos/id/200/500/250",
-    "https://picsum.photos/id/300/500/250"
+    "https://fakeimg.pl/500x250/ff0000/?text=1",
+    "https://fakeimg.pl/500x250/00ff00/?text=2",
+    "https://fakeimg.pl/500x250/0000ff/?text=3"
 ]
 
 let a = <Carousel src={data}/>

@@ -1,4 +1,4 @@
-**Week11 - Component**
+**Week12 - Component**
 
 # 1. Component-based/Overview
 
@@ -104,6 +104,38 @@ input.getAttribute('value') // cute
 ```
 
 Q: attr prop 應該一致或不一致？
+
+
+Component State
+
+|         | Markup set (Tag Create) | JS set(JS Create ) | JS Change | User Input Change
+|---------| --|---|---|---                          |
+|Propert  | x | v | v | ? (基本上不應該，例外像是 BI) |
+|attribute| v | v | v | ?                           |
+|state    | x | x | x | v (只能從 comp 內改變，否則容易失控無法保證 state 一致性)|
+|config   | x | v | x | x (一次性傳入，不可更改, global)|
+
+
+**Life Cycle**
+
+created → destroyed
+
+created → mount(掛到 screen) → unmount → destroyed
+
+created → js change/set(改變state) → render/update(comp 更新) → destroyed
+
+created → user input(改變state) → render/update → destroyed
+
+**Children**
+
+1. Content type Children (有多少放多)
+2. Template Chidren ()
+```html
+<my-list>
+    <li><img src={{icon}}>{{title}}</li>
+</my-list>
+```
+
 
 # 2. Component-based/ JSX
 
